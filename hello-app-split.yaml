@@ -1,0 +1,41 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: hello-app-destination
+spec:
+  host: hello-app
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: hello-app
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - hello-app-gateway
+  http:
+  - match:
+    - uri:
+        exact: /
+    route:
+    - destination:
+        subset: v1
+        host: hello-app
+        port:
+          number: 80
+      weight: 80
+    - destination:
+        subset: v2
+        host: hello-app
+        port:
+          number: 80
+      weight: 20
+
