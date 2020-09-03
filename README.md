@@ -1,1 +1,1 @@
-This is the repo for ecolab second hands on
+This is the repo for hands on with ASM and CR
