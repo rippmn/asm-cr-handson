@@ -15,6 +15,8 @@ gcloud services enable \
     iamcredentials.googleapis.com \
     gkeconnect.googleapis.com \
     gkehub.googleapis.com \
+    sourcerepo.googleapis.com \
+    cloudbuild.googleapis.com \
     cloudresourcemanager.googleapis.com
     
 export PROJECT_ID=$(gcloud config get-value project)
@@ -96,6 +98,25 @@ rm ~/.kube/config
 #cloud run cluster workload setup
 gcloud container clusters get-credentials ${CLUSTER2_NAME} --zone ${CR_CLUSTER_ZONE}
 NAMESPACE=default 
+
+docker pull rippmn/hello-bg-app:1.0
+docker pull rippmn/hello-bg-app:2.0
+docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
+docker push gcr.io$/${PROJECT_ID}/hello-bg-app:1.0
+docker push gcr.io$/${PROJECT_ID}/hello-bg-app:2.0
+
+gcloud source repos create hello-bg-app
+gcloud source repos clone hello-bg-app ~/hello-bg-app
+cp hello-bg-app/* ~/hello-bg-app/.
+cd ~/hello-bg-app
+git add -A
+git commit -a -m "initial commit"
+git push
+
+cd ~/asm-cr-handson
+
+
 #kubectl create serviceaccount --namespace ${NAMESPACE} cloud-run-sa
 
 #gcloud iam service-accounts add-iam-policy-binding \
@@ -118,7 +139,8 @@ done
 
 kubectl patch configmap config-domain --namespace knative-serving --patch \
   '{"data": {"example.com": null, "'${ingress_ip}'.xip.io": ""}}'
-gcloud beta run deploy hello-load-app --namespace default --image gcr.io/google-samples/hello-app:1.0 --max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE}
+gcloud beta run deploy hello-load-app --namespace default --image  gcr.io$/${PROJECT_ID}/hello-bg-app:1.0 \
+--max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE}
 #--service-account cloud-run-sa
 kubectl create namespace load
 sed "s/INGRESS_IP/$ingress_ip/g" hello-app-load-job.yaml | kubectl apply -f -
