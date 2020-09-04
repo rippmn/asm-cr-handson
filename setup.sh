@@ -103,8 +103,12 @@ docker pull rippmn/hello-bg-app:1.0
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-docker push gcr.io$/${PROJECT_ID}/hello-bg-app:1.0
-docker push gcr.io$/${PROJECT_ID}/hello-bg-app:2.0
+docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
+
+git config --global user.email $(gcloud config get-value core/account)
+git config --global user.name "Qwiklabs Student"
+
 
 gcloud source repos create hello-bg-app
 gcloud source repos clone hello-bg-app ~/hello-bg-app
