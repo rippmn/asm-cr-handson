@@ -28,9 +28,8 @@ func main() {
 func hello(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Serving request: %s", r.URL.Path)
 	host, _ := os.Hostname()
-	fmt.Fprintf(w, "<html><body style=\"background:blue\"><div style=\"text-align: center;color: white;font: 15px Arial;font-size: 200%\"><h1>Hello</h1><br/>")
-	fmt.Fprintf(w, "Time: 1234<br/>")
-	fmt.Fprintf(w, "Version: 1.0.0<br/>")
+	fmt.Fprintf(w, "<html><body style=\"background:purple\"><div style=\"text-align: center;color: white;font: 15px Arial;font-size: 200%\"><h1>Hello</h1><br/>")
+	fmt.Fprintf(w, "Version: 3.0.0<br/>")
 	fmt.Fprintf(w, "Hostname: %s<br/>", host)
 	fmt.Fprintf(w, "Time: %s<br/>", time.Now().Format("Mon Jan _2 2006 15:04:05"))
 	fmt.Fprintf(w, "</div></body></html>")
