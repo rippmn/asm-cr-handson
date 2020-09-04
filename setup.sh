@@ -143,13 +143,14 @@ done
 
 kubectl patch configmap config-domain --namespace knative-serving --patch \
   '{"data": {"example.com": null, "'${ingress_ip}'.xip.io": ""}}'
-gcloud beta run deploy hello-load-app --namespace default --image  gcr.io$/${PROJECT_ID}/hello-bg-app:1.0 \
+gcloud beta run deploy hello-load-app --namespace default --image  gcr.io/${PROJECT_ID}/hello-bg-app:1.0 \
 --max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE}
 #--service-account cloud-run-sa
 kubectl create namespace load
 sed "s/INGRESS_IP/$ingress_ip/g" hello-app-load-job.yaml | kubectl apply -f -
 #end of cloud run stuff
 ##THEN DELETE KUBECOFIG
+sleep 10
 rm ~/.kube/config
 ##THEN DO ASM
 
