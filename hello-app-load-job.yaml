@@ -9,6 +9,6 @@ spec:
       containers:
       - name: load-app
         image: rippmn/siege
-        command: ["siege","-d","2",  "http://hello-load-app.default.INGRESS_IP.xip.io"]
+        command: ["siege","http://hello-load-app.default.INGRESS_IP.xip.io"]
       restartPolicy: OnFailure
   backoffLimit: 4
