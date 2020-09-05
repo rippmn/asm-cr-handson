@@ -140,6 +140,12 @@ do
   ingress_ip=$(kubectl get service istio-ingress -n gke-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
 done
 
+configExists=""
+while [ ! $configExists ];
+do
+  sleep 2
+  configExists=$(kubectl get configmap config-domain -n knative-serving)
+done
 
 kubectl patch configmap config-domain --namespace knative-serving --patch \
   '{"data": {"example.com": null, "'${ingress_ip}'.xip.io": ""}}'
