@@ -25,7 +25,8 @@ export ENVIRON_PROJECT_NUMBER=$(gcloud projects describe ${PROJECT_ID} \
 export CLUSTER_NAME=anthos-mesh-cluster
 export CLUSTER_ZONE=us-central1-f
 export CLUSTER2_NAME=cloud-run-cluster
-export CR_CLUSTER_ZONE=us-west4-c
+#export CR_CLUSTER_ZONE=us-west4-c
+export CR_CLUSTER_ZONE=us-central1-f
 export WORKLOAD_POOL=${PROJECT_ID}.svc.id.goog
 export MESH_ID="proj-${ENVIRON_PROJECT_NUMBER}"
 
@@ -99,15 +100,15 @@ rm ~/.kube/config
 gcloud container clusters get-credentials ${CLUSTER2_NAME} --zone ${CR_CLUSTER_ZONE}
 NAMESPACE=default 
 
-docker pull rippmn/hello-bg-app:1.0
-docker pull rippmn/hello-bg-app:2.0
-docker pull rippmn/hello-bg-app:0.1
-docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-docker tag rippmn/hello-bg-app:0.1 gcr.io/${PROJECT_ID}/hello-bg-app:0.1
-docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-docker push gcr.io/${PROJECT_ID}/hello-bg-app:0.1
+#docker pull rippmn/hello-bg-app:1.0
+#docker pull rippmn/hello-bg-app:2.0
+#docker pull rippmn/hello-bg-app:0.1
+#docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+#docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
+#docker tag rippmn/hello-bg-app:0.1 gcr.io/${PROJECT_ID}/hello-bg-app:0.1
+#docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+#docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
+#docker push gcr.io/${PROJECT_ID}/hello-bg-app:0.1
 
 git config --global user.email $(gcloud config get-value core/account)
 git config --global user.name "Qwiklabs Student"
@@ -153,7 +154,7 @@ done
 
 kubectl patch configmap config-domain --namespace knative-serving --patch \
   '{"data": {"example.com": null, "'${ingress_ip}'.xip.io": ""}}'
-gcloud beta run deploy hello-load-app --namespace default --image  gcr.io/${PROJECT_ID}/hello-bg-app:0.1 \
+gcloud beta run deploy hello-load-app --namespace default --image  rippmn/hello-bg-app:0.1 \
 --max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE} --concurrency=40
 #--service-account cloud-run-sa
 kubectl create namespace load
