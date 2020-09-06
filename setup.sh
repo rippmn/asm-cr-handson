@@ -98,6 +98,7 @@ rm ~/.kube/config
 
 #cloud run cluster workload setup
 gcloud container clusters get-credentials ${CLUSTER2_NAME} --zone ${CR_CLUSTER_ZONE}
+cp ~/.kube/config ~/.kube/cloudrun
 NAMESPACE=default 
 
 #docker pull rippmn/hello-bg-app:1.0
