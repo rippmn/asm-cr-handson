@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+eetadata:
+  name: more-load-app
+  namespace: load
+spec:
+  template:
+    spec:
+      containers:
+      - name: load-app
+        image: rippmn/siege
+        command: ["siege","-c","50","http://hello-load-app.default.INGRESS_IP.xip.io"]
+      restartPolicy: OnFailure
+  backoffLimit: 4
