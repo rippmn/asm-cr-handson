@@ -143,12 +143,12 @@ do
   ingress_ip=$(kubectl get service istio-ingress -n gke-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
 done
 
-configExists=$(kubectl get configmap config-domain -n knative-serving)
+configExists=$(kubectl get configmap config-domain -n knative-serving -o jsonpath={.metadata.name})
 sleep 2
 while [ ! $configExists ];
 do
   sleep 2
-  configExists=$(kubectl get configmap config-domain -n knative-serving)
+  configExists=$(kubectl get configmap config-domain -n knative-serving -o jsonpath={.metadata.name})
 done
 
 kubectl patch configmap config-domain --namespace knative-serving --patch \
