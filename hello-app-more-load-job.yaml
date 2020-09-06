@@ -1,6 +1,6 @@
 apiVersion: batch/v1
 kind: Job
-eetadata:
+metadata:
   name: more-load-app
   namespace: load
 spec:
