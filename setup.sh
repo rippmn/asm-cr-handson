@@ -54,7 +54,7 @@ sleep 10
 gcloud beta container clusters create ${CLUSTER2_NAME} \
     --zone ${CR_CLUSTER_ZONE} \
     --release-channel=regular \
-    --machine-type=e2-standard-2 \
+    --machine-type=n1-standard-2 \
     --num-nodes=3 \
     --enable-stackdriver-kubernetes \
     --subnetwork=default \
@@ -101,13 +101,13 @@ NAMESPACE=default
 
 docker pull rippmn/hello-bg-app:1.0
 docker pull rippmn/hello-bg-app:2.0
-docker pull rippmn/hello-bg-app:3.0
+docker pull rippmn/hello-bg-app:0.1
 docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-docker tag rippmn/hello-bg-app:3.0 gcr.io/${PROJECT_ID}/hello-bg-slow:1.0
+docker tag rippmn/hello-bg-app:0.1 gcr.io/${PROJECT_ID}/hello-bg-app:0.1
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-docker push gcr.io/${PROJECT_ID}/hello-bg-slow:1.0
+docker push gcr.io/${PROJECT_ID}/hello-bg-app:0.1
 
 git config --global user.email $(gcloud config get-value core/account)
 git config --global user.name "Qwiklabs Student"
@@ -143,7 +143,8 @@ do
   ingress_ip=$(kubectl get service istio-ingress -n gke-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
 done
 
-configExists=""
+configExists=$(kubectl get configmap config-domain -n knative-serving)
+sleep 2
 while [ ! $configExists ];
 do
   sleep 2
@@ -152,8 +153,8 @@ done
 
 kubectl patch configmap config-domain --namespace knative-serving --patch \
   '{"data": {"example.com": null, "'${ingress_ip}'.xip.io": ""}}'
-gcloud beta run deploy hello-load-app --namespace default --image  gcr.io/${PROJECT_ID}/hello-bg-app:1.0 \
---max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE}
+gcloud beta run deploy hello-load-app --namespace default --image  gcr.io/${PROJECT_ID}/hello-bg-app:0.1 \
+--max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE} --concurrency=40
 #--service-account cloud-run-sa
 kubectl create namespace load
 sed "s/INGRESS_IP/$ingress_ip/g" hello-app-load-job.yaml | kubectl apply -f -
