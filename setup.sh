@@ -263,22 +263,23 @@ kubectl create namespace bookinfo
 kubectl label namespace bookinfo istio-injection=enabled --overwrite
 kubectl apply -f istio-1.6.8-asm.9/samples/bookinfo/platform/kube/bookinfo.yaml -n bookinfo
 kubectl apply -f istio-1.6.8-asm.9/samples/bookinfo/networking/bookinfo-gateway.yaml -n bookinfo
-kubectl wait pod --all --for=condition=ready --namespace bookinfo --timeout 90s
-kubectl create namespace load
-export INGRESSIP=$(kubectl get service istio-ingressgateway -n istio-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
-sed "s/INGRESSIP/${INGRESSIP}/g" bookinfo-load-job.yaml | kubectl apply -f -
+
 docker pull rippmn/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 
-gsutil defacl ch -u AllUsers:R gs://artifacts.{PROJECT_NAME}.appspot.com
-gsutil acl ch -r -u AllUsers:R gs://artifacts.{PROJECT_NAME}.appspot.com
-gsutil acl ch -u AllUsers:R gs://artifacts.{PROJECT_NAME}.appspot.com
+gsutil defacl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
+gsutil acl ch -r -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
+gsutil acl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 
-gcloud beta run deploy hello-load-app --namespace default --image  gcr.io/${PROJECT_ID}/hello-bg-app:1.0 \
---max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE} --concurrency=40
+kubectl wait pod --all --for=condition=ready --namespace bookinfo --timeout 90s
+kubectl create namespace load
+export ASMINGRESSIP=$(kubectl get service istio-ingressgateway -n istio-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
+sed "s/INGRESSIP/${ASMINGRESSIP}/g" bookinfo-load-job.yaml | kubectl apply -f -
+
+echo "Script Completed your environment is now ready"
 
 date
