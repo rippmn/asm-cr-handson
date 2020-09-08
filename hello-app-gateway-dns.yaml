@@ -12,23 +12,3 @@ spec:
       protocol: HTTP
     hosts:
     - "hello.INGRESS_IP.xip.io"
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: hello-app
-spec:
-  hosts:
-  - "*"        
-    #  - "hello.34.122.143.236.xip.io"
-  gateways:
-  - hello-app-gateway
-  http:
-  - match:
-    - uri:
-        exact: /
-    route:
-    - destination:
-        host: hello-app
-        port:
-          number: 80
