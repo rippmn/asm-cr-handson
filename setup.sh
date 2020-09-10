@@ -266,11 +266,16 @@ kubectl apply -f istio-1.6.8-asm.9/samples/bookinfo/networking/bookinfo-gateway.
 
 docker pull rippmn/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+docker tag rippmn/hello-bg-app:1.0 us.gcr.io/${PROJECT_ID}/demo-app:1.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+docker push us.gcr.io/${PROJECT_ID}/demo-app:1.0
 
 gsutil defacl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
 gsutil acl ch -r -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
 gsutil acl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
+gsutil defacl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
+gsutil acl ch -r -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
+gsutil acl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
