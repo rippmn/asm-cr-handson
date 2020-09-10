@@ -117,7 +117,7 @@ git config --global user.name "Qwiklabs Student"
 
 gcloud source repos create hello-bg-app
 gcloud source repos clone hello-bg-app ~/hello-bg-app
-cp hello-bg-app/* ~/hello-bg-app/.
+cp demo-app/* ~/hello-bg-app/.
 cd ~/hello-bg-app
 git add -A
 git commit -a -m "initial commit"
