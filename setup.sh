@@ -276,6 +276,7 @@ gsutil acl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
 gsutil defacl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
 gsutil acl ch -r -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
 gsutil acl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
+gcloud container images delete us.gcr.io/${PROJECT_ID}/demo-app:1.0 -q
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
