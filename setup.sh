@@ -17,6 +17,7 @@ gcloud services enable \
     gkehub.googleapis.com \
     sourcerepo.googleapis.com \
     cloudbuild.googleapis.com \
+    run.googleapis.com \
     cloudresourcemanager.googleapis.com
     
 export PROJECT_ID=$(gcloud config get-value project)
@@ -48,6 +49,7 @@ gcloud beta container clusters create ${CLUSTER_NAME} \
     --workload-pool=${WORKLOAD_POOL} \
     --enable-stackdriver-kubernetes \
     --subnetwork=default \
+    --scopes cloud-platform \
     --labels mesh_id=${MESH_ID} -q --verbosity none & 
 
 sleep 10
@@ -55,10 +57,11 @@ sleep 10
 gcloud beta container clusters create ${CLUSTER2_NAME} \
     --zone ${CR_CLUSTER_ZONE} \
     --release-channel=regular \
-    --machine-type=n1-standard-2 \
+    --machine-type=e2-standard-2 \
     --num-nodes=3 \
     --enable-stackdriver-kubernetes \
     --subnetwork=default \
+    --scopes cloud-platform \
     --addons=HttpLoadBalancing,CloudRun -q --verbosity none &
 
 sleep 10
@@ -268,14 +271,14 @@ docker pull rippmn/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 us.gcr.io/${PROJECT_ID}/demo-app:1.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-docker push us.gcr.io/${PROJECT_ID}/demo-app:1.0
+#docker push us.gcr.io/${PROJECT_ID}/demo-app:1.0
 
-gsutil defacl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
-gsutil acl ch -r -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
-gsutil acl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
-gsutil defacl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
-gsutil acl ch -r -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
-gsutil acl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
+#gsutil defacl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
+#gsutil acl ch -r -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
+#gsutil acl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
+#gsutil defacl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
+#gsutil acl ch -r -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
+#gsutil acl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
 gcloud container images delete us.gcr.io/${PROJECT_ID}/demo-app:1.0 -q
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
