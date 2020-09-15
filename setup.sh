@@ -104,15 +104,6 @@ gcloud container clusters get-credentials ${CLUSTER2_NAME} --zone ${CR_CLUSTER_Z
 cp ~/.kube/config ~/.kube/cloudrun
 NAMESPACE=default 
 
-#docker pull rippmn/hello-bg-app:1.0
-#docker pull rippmn/hello-bg-app:2.0
-#docker pull rippmn/hello-bg-app:0.1
-#docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-#docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-#docker tag rippmn/hello-bg-app:0.1 gcr.io/${PROJECT_ID}/hello-bg-app:0.1
-#docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-#docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-#docker push gcr.io/${PROJECT_ID}/hello-bg-app:0.1
 
 git config --global user.email $(gcloud config get-value core/account)
 git config --global user.name "Qwiklabs Student"
@@ -271,15 +262,7 @@ docker pull rippmn/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 us.gcr.io/${PROJECT_ID}/demo-app:1.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-#docker push us.gcr.io/${PROJECT_ID}/demo-app:1.0
 
-#gsutil defacl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
-#gsutil acl ch -r -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
-#gsutil acl ch -u AllUsers:R gs://artifacts.${PROJECT_ID}.appspot.com
-#gsutil defacl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
-#gsutil acl ch -r -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
-#gsutil acl ch -u AllUsers:R gs://us.artifacts.${PROJECT_ID}.appspot.com
-gcloud container images delete us.gcr.io/${PROJECT_ID}/demo-app:1.0 -q
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
