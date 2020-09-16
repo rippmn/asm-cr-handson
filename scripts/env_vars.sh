@@ -10,12 +10,6 @@ fi
 
 gcloud config set project $project 
 
-zone=$(cut -d'/' -f4 <<< $(curl metadata/computeMetadata/v1/instance/zone))
-
-if [[ "$zone" == *"central"* ]]; then
-  echo "It's there."
-fi
-
 #find zone
 zone=$(cut -d'/' -f4 <<< $(curl metadata/computeMetadata/v1/instance/zone))
 
@@ -24,7 +18,7 @@ c_zone="us-central1-f"
 if [[ "$zone" == *"europe"* ]]; then
   c_zone="europe-west3-b";
 elif [[ "$zone" == *"asia"* ]]; then
-  c_zone="asia-south1-b";
+  c_zone="asia-southeast1-a";
 
 fi
 
