@@ -1,5 +1,5 @@
 project=""
-while [ ! project ];
+while [ ! $project ];
 do
   project=$(gcloud projects list --filter name='qwiklabs-gcp*' --format='table[no-heading]("PROJECT_ID")')
 done
