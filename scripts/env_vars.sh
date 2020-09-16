@@ -1,4 +1,9 @@
-project=$(gcloud projects list --filter name='qwiklabs-gcp*' --format='table[no-heading]("PROJECT_ID")')
+project=""
+while [ ! project ];
+do
+  project=$(gcloud projects list --filter name='qwiklabs-gcp*' --format='table[no-heading]("PROJECT_ID")')
+done
+
 gcloud config set project $project 
 
 export PROJECT_ID=$(gcloud config get-value project)
