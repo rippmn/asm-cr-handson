@@ -1,4 +1,5 @@
 gcloud beta container clusters create ${CLUSTER_NAME} \
+    --zone ${CLUSTER_ZONE} \
     --release-channel=regular \
     --machine-type=e2-standard-4 \
     --num-nodes=4 \
