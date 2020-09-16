@@ -1,8 +1,12 @@
-project=""
-while [ ! $project ];
-do
-  project=$(gcloud projects list --filter name='qwiklabs-gcp*' --format='table[no-heading]("PROJECT_ID")')
-done
+project=$(gcloud projects list --filter name='qwiklabs-gcp*' --format='table[no-heading]("PROJECT_ID")')
+
+if [ ! $project ];
+then
+  echo "ERROR - There appears to be a problem with your Cloud Shell setup. Restart of shell necessary."
+  export BADSHELL=TRUE
+  exit
+fi
+
 
 gcloud config set project $project 
 

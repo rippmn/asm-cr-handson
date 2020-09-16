@@ -1,5 +1,14 @@
 date
+sleep 10
+
+
 . scripts/env_vars.sh
+
+if [ $BADSHELL ];
+then
+  echo "ERROR - There appears to be a problem with your Cloud Shell setup. Restart of shell necessary"
+  exit -1;
+fi
 
 scripts/api_enable.sh
 
