@@ -99,8 +99,7 @@ kubectl label namespace bookinfo istio-injection=enabled --overwrite
 kubectl apply -f istio-1.6.8-asm.9/samples/bookinfo/platform/kube/bookinfo.yaml -n bookinfo
 kubectl apply -f istio-1.6.8-asm.9/samples/bookinfo/networking/bookinfo-gateway.yaml -n bookinfo
 
-sleep 30
-kubectl wait pod --all --for=condition=ready --namespace bookinfo --timeout 90s
+kubectl wait pod --all --for=condition=ready --namespace bookinfo --timeout 300s
 kubectl create namespace load
 export ASMINGRESSIP=$(kubectl get service istio-ingressgateway -n istio-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
 sed "s/INGRESSIP/${ASMINGRESSIP}/g" bookinfo-load-job.yaml | kubectl apply -f -
