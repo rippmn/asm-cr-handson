@@ -38,6 +38,6 @@ gcloud beta run deploy hello-load-app --namespace default --image  rippmn/hello-
 --max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE} --concurrency=40
 #--service-account cloud-run-sa
 kubectl create namespace load
-sed "s/INGRESS_IP/$ingress_ip/g" hello-app-load-job.yaml | kubectl apply -f --kubeconfig ~/.kube/cloudrun -
+sed "s/INGRESS_IP/$ingress_ip/g" hello-app-load-job.yaml | kubectl apply --kubeconfig ~/.kube/cloudrun -f -
 #end of cloud run stuff
 echo "Cloud Run setup completed"
