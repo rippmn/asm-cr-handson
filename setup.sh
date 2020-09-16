@@ -1,7 +1,7 @@
 date
-scripts/env_vars.sh
+. scripts/env_vars.sh
 
-scripts/api-enable.sh
+scripts/api_enable.sh
 
 ownerTest=$(gcloud projects get-iam-policy $PROJECT_ID --flatten="bindings[].members" --filter="bindings.members:user:$(gcloud config get-value core/account 2>/dev/null)" | grep roles/owner)
 echo $ownerTest
