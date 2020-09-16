@@ -14,29 +14,16 @@ else
 fi
 
 gcloud config set compute/zone ${CLUSTER_ZONE}
-gcloud beta container clusters create ${CLUSTER_NAME} \
-    --release-channel=regular \
-    --machine-type=e2-standard-4 \
-    --num-nodes=4 \
-    --workload-pool=${WORKLOAD_POOL} \
-    --enable-stackdriver-kubernetes \
-    --subnetwork=default \
-    --scopes cloud-platform \
-    --labels mesh_id=${MESH_ID} -q --verbosity none & 
+
+scripts/create-asm-cluster.sh
 
 sleep 10
 
-gcloud beta container clusters create ${CLUSTER2_NAME} \
-    --zone ${CR_CLUSTER_ZONE} \
-    --release-channel=regular \
-    --machine-type=e2-standard-2 \
-    --num-nodes=3 \
-    --enable-stackdriver-kubernetes \
-    --subnetwork=default \
-    --scopes cloud-platform \
-    --addons=HttpLoadBalancing,CloudRun -q --verbosity none &
+scripts/create-cr-cluster.sh
 
 sleep 10
+
+
 #gcloud components install kpt
 sudo apt-get install google-cloud-sdk-kpt -y
 
