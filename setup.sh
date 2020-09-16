@@ -23,7 +23,6 @@ scripts/create-cr-cluster.sh
 
 sleep 10
 
-
 #gcloud components install kpt
 sudo apt-get install google-cloud-sdk-kpt -y
 
@@ -48,6 +47,17 @@ docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 
 cd ~/asm-cr-handson
+
+for cluster in ${CLUSTER_NAME} ${CLUSTER2_NAME};
+do
+        status="none"
+        while [ "$status" != "RUNNING" ];
+        do
+          status=$(gcloud container clusters describe $cluster --zone ${CLUSTER_ZONE} --format='table[no-heading]("status")')
+          echo "still waiting on cluster $cluster start. Current status $status"
+          sleep 15
+        done
+done
 
 scripts/cr-setup.sh
 scripts/asm-setup.sh

@@ -1,13 +1,3 @@
-###INSERT WAIT HERE
-status=""
-
-while [ "$status" != "RUNNING" ];
-do
-  status=$(gcloud container clusters describe ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --format='table[no-heading]("status")')
-  echo "still waiting on cluster ${CLUSTER_NAME} start. Current status $status"
-  sleep 15
-done
-
 ##THEN DLETE KUBE CONFIG
 rm ~/.kube/config
 

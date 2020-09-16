@@ -1,15 +1,3 @@
-###INSERT WAIT HERE
-#waiting 30 seconds to be sure the clusters are availble to query
-sleep 30
-status="none"
-
-while [ "$status" != "RUNNING" ];
-do
-  status=$(gcloud container clusters describe ${CLUSTER2_NAME} --zone ${CR_CLUSTER_ZONE} --format='table[no-heading]("status")')
-  echo "still waiting on cluster ${CLUSTER2_NAME} start. Current status $status"
-  sleep 15
-done
-
 #cloud run cluster workload setup
 rm ~/.kube/config
 
