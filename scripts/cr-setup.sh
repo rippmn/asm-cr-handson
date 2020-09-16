@@ -22,7 +22,7 @@ done
 
 kubectl patch configmap config-domain --namespace knative-serving --patch \
   '{"data": {"example.com": null, "'${ingress_ip}'.xip.io": ""}}'
-gcloud beta run deploy hello-load-app --namespace default --image  rippmn/hello-bg-app:0.1 \
+gcloud beta run deploy hello-load-app --namespace default --image  gcr.io/${PROJECT_ID}/load-app:1.0 \
 --max-instances 3 --platform gke --cluster=${CLUSTER2_NAME} --cluster-location=${CR_CLUSTER_ZONE} --concurrency=40
 #--service-account cloud-run-sa
 kubectl create namespace load
