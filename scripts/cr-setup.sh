@@ -9,18 +9,18 @@ ingress_ip=""
 while [ ! $ingress_ip ];
 do
   sleep 2
-  ingress_ip=$(kubectl get service istio-ingress -n gke-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
+  ingress_ip=$(kubectl get service istio-ingress -n gke-system -o jsonpath={.status.loadBalancer.ingress[0].ip} --kubeconfig ~/.kube/cloudrun)
 done
 
-configExists=$(kubectl get configmap config-domain -n knative-serving -o jsonpath={.metadata.name})
+configExists=$(kubectl get configmap config-domain -n knative-serving -o jsonpath={.metadata.name} --kubeconfig ~/.kube/cloudrun)
 sleep 2
 while [ ! $configExists ];
 do
   sleep 2
-  configExists=$(kubectl get configmap config-domain -n knative-serving -o jsonpath={.metadata.name})
+  configExists=$(kubectl get configmap config-domain -n knative-serving -o jsonpath={.metadata.name} --kubeconfig ~/.kube/cloudrun)
 done
 
-kubectl patch configmap config-domain --namespace knative-serving --patch \
+kubectl patch configmap config-domain --kubeconfig ~/.kube/cloudrun --namespace knative-serving --patch \
   '{"data": {"example.com": null, "'${ingress_ip}'.xip.io": ""}}'
 #gcloud beta run deploy hello-load-app --namespace default --image  gcr.io/${PROJECT_ID}/load-app:1.0 \
 gcloud beta run deploy hello-load-app --namespace default --image  rippmn/hello-bg-app:0.1 \
