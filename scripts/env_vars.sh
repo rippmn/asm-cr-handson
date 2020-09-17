@@ -11,7 +11,7 @@ fi
 gcloud config set project $project 
 
 #find zone
-zone=$(cut -d'/' -f4 <<< $(curl metadata/computeMetadata/v1/instance/zone))
+zone=$(cut -d'/' -f4 <<< $(curl metadata/computeMetadata/v1/instance/zone -H "Metadata-Flavor: Google"))
 
 c_zone="us-central1-f"
 gcr_region="us"
