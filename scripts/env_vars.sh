@@ -14,11 +14,14 @@ gcloud config set project $project
 zone=$(cut -d'/' -f4 <<< $(curl metadata/computeMetadata/v1/instance/zone))
 
 c_zone="us-central1-f"
+gcr_region="us"
 
 if [[ "$zone" == *"europe"* ]]; then
   c_zone="europe-west3-b";
+  gcr_region="eu"
 elif [[ "$zone" == *"asia"* ]]; then
   c_zone="asia-southeast1-a";
+  gcr_region="asia"
 
 fi
 
@@ -32,4 +35,5 @@ export CLUSTER2_NAME=cloud-run-cluster
 export CR_CLUSTER_ZONE=${c_zone}
 export WORKLOAD_POOL=${PROJECT_ID}.svc.id.goog
 export MESH_ID="proj-${ENVIRON_PROJECT_NUMBER}"
+export GCR_REGION=$gcr_region
 

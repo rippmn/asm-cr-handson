@@ -48,11 +48,11 @@ git push
 cd ~/asm-cr-handson
 
 docker pull rippmn/hello-bg-app:1.0
-docker tag rippmn/hello-bg-app:1.0 gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-docker push gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+docker tag rippmn/hello-bg-app:1.0 ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker pull rippmn/hello-bg-app:2.0
-docker tag rippmn/hello-bg-app:2.0 gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-docker push gcr.io/${PROJECT_ID}/hello-bg-app:2.0
+docker tag rippmn/hello-bg-app:2.0 ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:2.0
+docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 #docker pull rippmn/hello-bg-app:0.1
 #docker tag rippmn/hello-bg-app:0.1 gcr.io/${PROJECT_ID}/load-app:1.0
 #docker push gcr.io/${PROJECT_ID}/load-app:1.0
