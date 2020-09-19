@@ -11,18 +11,22 @@ fi
 gcloud config set project $project 
 
 #find zone
-zone=$(cut -d'/' -f4 <<< $(curl metadata/computeMetadata/v1/instance/zone -H "Metadata-Flavor: Google"))
+#zone=$(cut -d'/' -f4 <<< $(curl metadata/computeMetadata/v1/instance/zone -H "Metadata-Flavor: Google"))
 
 c_zone="us-central1-f"
 gcr_region="us"
 
-if [[ "$zone" == *"europe"* ]]; then
-  c_zone="europe-west3-b";
-  gcr_region="eu"
-elif [[ "$zone" == *"asia"* ]]; then
-  c_zone="asia-southeast1-a";
-  gcr_region="asia"
+#if [[ "$zone" == *"europe"* ]]; then
+#  c_zone="europe-west3-b";
+#  gcr_region="eu"
+#elif [[ "$zone" == *"asia"* ]]; then
+#  c_zone="asia-southeast1-a";
+#  gcr_region="asia"
+#
+#fi
 
+if [ $ZONE_PICK ]; then
+	c_zone=$ZONE_PICK;
 fi
 
 export PROJECT_ID=$(gcloud config get-value project)
