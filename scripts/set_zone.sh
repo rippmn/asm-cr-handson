@@ -20,6 +20,7 @@ elif [[ $choice == 2 ]]; then
    export GCR_REGION="eu";
 else
    export ZONE_PICK="us-central1-f";
+   export GCR_REGION="us";
 fi
 
 echo "Using $ZONE_PICK as your zone"
