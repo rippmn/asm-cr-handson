@@ -1,14 +1,14 @@
 choice=""
 while [[ ! $choice || $choice != @(1|2|3) ]];
 do
-	echo "Select your closest region"
+	echo "Select your closest region (Enter 1, 2, or 3)"
 	echo "1. US"
 	echo "2. Europe"
 	echo "3. Asia"
 	read choice
 	if [[ $choice != @(1|2|3) ]];
 	then
-		echo "your choice $choice is not valid, please enter a valid selection";
+		echo "your choice $choice is not valid, please enter a valid selection (1, 2, or 3)";
 	fi
 done
 
