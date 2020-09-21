@@ -27,6 +27,7 @@ gcr_region="us"
 
 if [ $ZONE_PICK ]; then
 	c_zone=$ZONE_PICK;
+	gcr_region=$GCR_REGION;
 fi
 
 export PROJECT_ID=$(gcloud config get-value project)
