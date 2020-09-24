@@ -1,0 +1,23 @@
+resources:
+- type: container.v1.cluster
+  name: cloud-run-cluster
+  properties:
+    cluster:
+      addonsConfig:
+        httpLoadBalancing:
+          disabled: false
+        cloudRunConfig:
+          disabled: false
+      nodePools:
+      - name: default
+        initialNodeCount: 3
+        config:
+          machineType: e2-standard-2
+          oauthScopes:
+          - https://www.googleapis.com/auth/cloud-platform
+      releaseChannel:
+        channel: REGULAR
+      ipAllocationPolicy:
+        useIpAliases: true
+    zone:
+      us-central1-f
