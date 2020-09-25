@@ -46,6 +46,7 @@ git commit -a -m "initial commit"
 git push
 
 cd ~/asm-cr-handson
+rm -rf demo-app
 
 docker pull rippmn/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:1.0
