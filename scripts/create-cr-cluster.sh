@@ -1,4 +1,3 @@
-#add a cluster check here
 isCloudRunCluster=$(gcloud container clusters list --filter name="${CLUSTER2_NAME}" --format='table[no-heading]("NAME")')
 
 if [ isCloudRunCluster ]; then
