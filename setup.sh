@@ -1,5 +1,5 @@
-date
-sleep 10
+start_time=$(date)
+echo $start_time
 
 . scripts/env_vars.sh
 
@@ -49,7 +49,6 @@ cd ~/asm-cr-handson
 
 docker pull rippmn/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:1.0
-#docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:2.0 ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app
@@ -77,4 +76,5 @@ scripts/asm-setup.sh
 
 echo "Script Completed your environment is now ready"
 
-date
+echo "Start:$start_time End:$(date)"
+
