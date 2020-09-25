@@ -21,3 +21,29 @@ resources:
         useIpAliases: true
     zone:
       us-central1-f
+- type: container.v1.cluster
+  name: anthos-mesh-cluster
+  properties:
+    cluster:
+      addonsConfig:
+        httpLoadBalancing:
+          disabled: false
+        cloudRunConfig:
+          disabled: false
+      nodePools:
+      - name: default
+        initialNodeCount: 3
+        config:
+          machineType: e2-standard-4
+          oauthScopes:
+          - https://www.googleapis.com/auth/cloud-platform
+      releaseChannel:
+        channel: REGULAR
+      workloadIdentityConfig:
+        workloadPool: {{ env['project'] }}.svc.id.goog
+      ipAllocationPolicy:
+        useIpAliases: true
+      resourceLabels:
+        mesh_id: proj-{{ env['project_number'] }}
+    zone:
+      us-central1-f
