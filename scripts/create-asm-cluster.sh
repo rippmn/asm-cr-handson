@@ -1,7 +1,7 @@
 isASMCluster=$(gcloud container clusters list --filter name="${CLUSTER_NAME}" --format='table[no-heading]("NAME")')
 
 if [ isASMCluster ]; then
-	echo "cluster exists already skipping create"
+	echo "cluster ${CLUSTER_NAME} already provsioned skipping create"
         exit;
 fi
 
