@@ -25,11 +25,8 @@ gcloud config set compute/zone ${CLUSTER_ZONE}
 
 scripts/create-asm-cluster.sh
 
-sleep 10
-
 scripts/create-cr-cluster.sh
 
-sleep 10
 
 #gcloud components install kpt
 sudo apt-get install google-cloud-sdk-kpt -y
@@ -63,7 +60,7 @@ cd ~/asm-cr-handson
 
 for cluster in ${CLUSTER_NAME} ${CLUSTER2_NAME};
 do
-        status="none"
+        status=$(gcloud container clusters describe $cluster --zone ${CLUSTER_ZONE} --format='table[no-heading]("status")')
         while [ "$status" != "RUNNING" ];
         do
           status=$(gcloud container clusters describe $cluster --zone ${CLUSTER_ZONE} --format='table[no-heading]("status")')

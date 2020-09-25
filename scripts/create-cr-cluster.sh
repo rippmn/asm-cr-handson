@@ -14,3 +14,5 @@ gcloud beta container clusters create ${CLUSTER2_NAME} \
     --subnetwork=default \
     --scopes cloud-platform \
     --addons=HttpLoadBalancing,CloudRun -q --verbosity none &
+
+sleep 10

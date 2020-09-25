@@ -15,3 +15,5 @@ gcloud beta container clusters create ${CLUSTER_NAME} \
     --subnetwork=default \
     --scopes cloud-platform \
     --labels mesh_id=${MESH_ID} -q --verbosity none & 
+
+sleep 10
