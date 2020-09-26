@@ -1,6 +1,6 @@
 isCloudRunCluster=$(gcloud container clusters list --filter name="${CLUSTER2_NAME}" --format='table[no-heading]("NAME")')
 
-if [ isCloudRunCluster ]; then
+if [ $isCloudRunCluster ]; then
         echo "cluster ${CLUSTER2_NAME} already provsioned skipping create"
         exit;
 fi
