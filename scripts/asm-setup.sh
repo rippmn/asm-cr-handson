@@ -39,7 +39,8 @@ else
  exit
 fi
 ####
-istioVersion="istio-1.6.8-asm.9"
+istioVersion="istio-1.6.11-asm.1"
+asmKptReleaseTag="release-1.6-asm"
 
 curl -LO https://storage.googleapis.com/gke-release/asm/${istioVersion}-linux-amd64.tar.gz
 
@@ -76,7 +77,7 @@ mkdir asm-install
 cd asm-install
 
 kpt pkg get \
-https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages.git/asm@release-1.6-asm .
+https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages.git/asm@${asmKptReleaseTag} asm
 
 kpt cfg set asm gcloud.container.cluster ${CLUSTER_NAME}
 
@@ -96,8 +97,8 @@ cd ..
 
 kubectl create namespace bookinfo
 kubectl label namespace bookinfo istio-injection=enabled --overwrite
-kubectl apply -f istio-1.6.8-asm.9/samples/bookinfo/platform/kube/bookinfo.yaml -n bookinfo
-kubectl apply -f istio-1.6.8-asm.9/samples/bookinfo/networking/bookinfo-gateway.yaml -n bookinfo
+kubectl apply -f ${istioVersion}/samples/bookinfo/platform/kube/bookinfo.yaml -n bookinfo
+kubectl apply -f ${istioVersion}/samples/bookinfo/networking/bookinfo-gateway.yaml -n bookinfo
 
 kubectl wait pod --all --for=condition=ready --namespace bookinfo --timeout 300s
 kubectl create namespace load
