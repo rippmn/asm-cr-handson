@@ -29,7 +29,23 @@ scripts/create-cr-cluster.sh
 
 
 #gcloud components install kpt
-sudo apt-get install google-cloud-sdk-kpt -y
+kpt_test = $(which kpt)
+if [ "$kpt_test" ];
+then 
+   echo "kpt already installed. Moving on"
+else
+   echo "kpt being installed."
+   sudo apt-get install google-cloud-sdk-kpt -y
+fi
+
+jq_test = $(which jq)
+if [ "$jq_test" ];
+then 
+   echo "jq already installed. Moving on"
+else
+   echo "jq being installed."
+   sudo apt-get install jq -y
+fi
 
 git config --global user.email $(gcloud config get-value core/account)
 git config --global user.name "Qwiklabs Student"
@@ -75,4 +91,3 @@ scripts/asm-setup.sh
 echo "Script Completed your environment is now ready"
 
 echo "Start:$start_time End:$(date)"
-
