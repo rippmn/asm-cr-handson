@@ -47,7 +47,7 @@ curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_${istioVersion
 
 curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_${istioVersion}.sha256 > install_asm.sha256
 
-verfiy=$(sha256sum -c --ignore-missing install_asm.sha256)
+verify=$(sha256sum -c --ignore-missing install_asm.sha256)
 
 if [ "$verify" == "install_asm: OK" ];
 then

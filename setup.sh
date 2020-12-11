@@ -29,7 +29,7 @@ scripts/create-cr-cluster.sh
 
 
 #gcloud components install kpt
-kpt_test = $(which kpt)
+kpt_test=$(which kpt)
 if [ "$kpt_test" ];
 then 
    echo "kpt already installed. Moving on"
@@ -38,7 +38,7 @@ else
    sudo apt-get install google-cloud-sdk-kpt -y
 fi
 
-jq_test = $(which jq)
+jq_test=$(which jq)
 if [ "$jq_test" ];
 then 
    echo "jq already installed. Moving on"
