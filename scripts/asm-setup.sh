@@ -53,13 +53,14 @@ if [ "$verify" == "install_asm: OK" ];
 then
   echo "install script verify. Installing ASM now"
   chmod +x install_asm
-  
+  mkdir asm-dist 
   ./install_asm \
   --project_id ${PROJECT_ID} \
   --cluster_name ${CLUSTER_NAME} \
   --cluster_location ${CLUSTER_ZONE} \
   --mode install \
-  --enable_apis
+  --output_dir asm-dist \
+  --enable_apis   
 
 else
  echo "Error verifying asm install script exiting"
