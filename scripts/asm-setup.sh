@@ -39,59 +39,32 @@ else
  exit
 fi
 ####
-istioVersion="istio-1.6.11-asm.1"
-asmKptReleaseTag="release-1.6-asm"
+istioVersion="1.7"
+mkdir asm_script
+cd asm_script
 
-curl -LO https://storage.googleapis.com/gke-release/asm/${istioVersion}-linux-amd64.tar.gz
+curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_${istioVersion} > install_asm
 
-curl -LO https://storage.googleapis.com/gke-release/asm/${istioVersion}-linux-amd64.tar.gz.1.sig
+curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_${istioVersion}.sha256 > install_asm.sha256
 
-cat <<'EOF' > pk
------BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEWZrGCUaJJr1H8a36sG4UUoXvlXvZ
-wQfk16sxprI2gOJ2vFFggdq3ixF2h4qNBt0kI7ciDhgpwS8t+/960IsIgw==
------END PUBLIC KEY-----
-EOF
+verfiy=$(sha256sum -c --ignore-missing install_asm.sha256)
 
-verify=$(openssl dgst -verify pk -signature ${istioVersion}-linux-amd64.tar.gz.1.sig ${istioVersion}-linux-amd64.tar.gz)
-
-echo $verify
-
-if [ "$verify" ];
+if [ "$verify" == "install_asm: OK" ];
 then
- rm pk
- rm ${istioVersion}-linux-amd64.tar.gz.1.sig
+  echo "install script verify. Installing ASM now"
+  chmod +x install_asm
+  
+  ./install_asm \
+  --project_id ${PROJECT_ID} \
+  --cluster_name ${CLUSTER_NAME} \
+  --cluster_location ${CLUSTER_ZONE} \
+  --mode install \
+  --enable_apis
+
 else
- echo "Error"
+ echo "Error verifying asm install script exiting"
  exit
 fi
-
-tar xzf ${istioVersion}-linux-amd64.tar.gz
-rm ${istioVersion}-linux-amd64.tar.gz
-
-cd ${istioVersion}
-export PATH=$PWD/bin:$PATH
-
-cd ..
-mkdir asm-install
-cd asm-install
-
-kpt pkg get \
-https://github.com/GoogleCloudPlatform/anthos-service-mesh-packages.git/asm@${asmKptReleaseTag} asm
-
-kpt cfg set asm gcloud.container.cluster ${CLUSTER_NAME}
-
-kpt cfg set asm gcloud.core.project ${PROJECT_ID}
-
-kpt cfg set asm gcloud.project.environProjectNumber ${ENVIRON_PROJECT_NUMBER}
-
-kpt cfg set asm gcloud.compute.location ${CLUSTER_ZONE}
-
-kpt cfg set asm anthos.servicemesh.profile asm-gcp
-
-istioctl install -f asm/cluster/istio-operator.yaml
-
-kubectl apply -f asm/canonical-service/controller.yaml
 
 cd ..
 
