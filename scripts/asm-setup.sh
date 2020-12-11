@@ -69,7 +69,9 @@ fi
 cd ..
 
 kubectl create namespace bookinfo
-kubectl label namespace bookinfo istio-injection=enabled --overwrite
+
+rev=$(kubectl -n istio-system get pods -l app=istiod -o jsonpath={.items[0].metadata.labels.'istio\.io/rev'})
+kubectl label namespace bookinfo istio.io/rev=${rev} --overwrite
 kubectl apply -f ${istioVersion}/samples/bookinfo/platform/kube/bookinfo.yaml -n bookinfo
 kubectl apply -f ${istioVersion}/samples/bookinfo/networking/bookinfo-gateway.yaml -n bookinfo
 
