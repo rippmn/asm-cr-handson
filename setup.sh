@@ -65,7 +65,8 @@ docker pull rippmn/hello-bg-app:1.0
 docker tag rippmn/hello-bg-app:1.0 ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:1.0
 docker pull rippmn/hello-bg-app:2.0
 docker tag rippmn/hello-bg-app:2.0 ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:2.0
-docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app
+docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:1.0
+docker push ${GCR_REGION}.gcr.io/${PROJECT_ID}/hello-bg-app:2.0
 
 gsutil defacl ch -u AllUsers:R gs://${GCR_REGION}.artifacts.${PROJECT_ID}.appspot.com
 gsutil acl ch -r -u AllUsers:R gs://${GCR_REGION}.artifacts.${PROJECT_ID}.appspot.com
