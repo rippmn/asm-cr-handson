@@ -39,7 +39,7 @@ else
  exit
 fi
 ####
-istioVersion="1.7"
+istioVersion="1.9"
 mkdir asm_script
 cd asm_script
 
@@ -60,14 +60,14 @@ then
   --cluster_location ${CLUSTER_ZONE} \
   --mode install \
   --output_dir asm-dist \
-  --enable_apis   
+  --enable_all   
 
 else
  echo "Error verifying asm install script exiting"
  exit
 fi
 
-cd asm-dist/istio*
+cd asm-dist/istioi-*
 
 #/home/student_00_31279f0a4ea6/asm-cr-handson/asm_script/asm-dist/istio-1.7.3-asm.6
 kubectl create namespace bookinfo
