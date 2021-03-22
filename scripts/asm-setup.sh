@@ -67,7 +67,7 @@ else
  exit
 fi
 
-cd asm-dist/istioi-*
+cd asm-dist/istio-*
 
 #/home/student_00_31279f0a4ea6/asm-cr-handson/asm_script/asm-dist/istio-1.7.3-asm.6
 kubectl create namespace bookinfo
