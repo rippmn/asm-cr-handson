@@ -8,11 +8,13 @@ import (
 	"time"
 )
 
+var starttime time.Time;
+
 func main() {
 	// register hello function to handle all requests
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", hello)
-
+	starttime = time.Now();
 	// use PORT environment variable, or default to 8080
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -26,7 +28,7 @@ func main() {
 
 // hello responds to the request with a plain-text "Hello, world" message.
 func hello(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Serving request: %s", r.URL.Path)
+	log.Printf("Serving request: %s from instance started at %s", r.URL.Path, starttime)
 	host := os.Getenv("K_REVISION")
 	if (host == ""){
 	  host, _ = os.Hostname()
