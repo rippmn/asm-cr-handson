@@ -28,7 +28,7 @@ func main() {
 
 // hello responds to the request with a plain-text "Hello, world" message.
 func hello(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Serving request: %s from instance started at %s", r.URL.Path, starttime)
+	log.Printf("Serving request: %s from instance started at %s", r.URL.Path, starttime.Format("15:04:05-2006/01/02"))
 	host := os.Getenv("K_REVISION")
 	if (host == ""){
 	  host, _ = os.Hostname()
