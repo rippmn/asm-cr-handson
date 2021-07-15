@@ -39,7 +39,7 @@ else
  exit
 fi
 ####
-istioVersion="1.9"
+istioVersion="1.10"
 mkdir asm_script
 cd asm_script
 
