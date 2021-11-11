@@ -69,9 +69,9 @@ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml -n bookinfo
 kubectl wait pod --all --for=condition=ready --namespace bookinfo --timeout 300s
 kubectl create namespace load
 
-#cd ../../..
+cd ../../..
 
-#export ASMINGRESSIP=$(kubectl get service istio-ingressgateway -n istio-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
-#sed "s/INGRESSIP/${ASMINGRESSIP}/g" bookinfo-load-job.yaml | kubectl apply -f -
+export ASMINGRESSIP=$(kubectl get service istio-ingressgateway -n istio-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
+sed "s/INGRESSIP/${ASMINGRESSIP}/g" bookinfo-load-job.yaml | kubectl apply -f -
 
-#echo "ASM setup completed"
+echo "ASM setup completed"
