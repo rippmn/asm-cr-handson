@@ -2,7 +2,7 @@ isASMCluster=$(gcloud container clusters list --filter name="${CLUSTER_NAME}" --
 
 if [ $isASMCluster ]; then
 	echo "cluster ${CLUSTER_NAME} already provsioned skipping create"
-        exit;
+       exit;
 fi
 
 gcloud beta container clusters create ${CLUSTER_NAME} \
@@ -11,7 +11,7 @@ gcloud beta container clusters create ${CLUSTER_NAME} \
     --machine-type=e2-standard-4 \
     --num-nodes=4 \
     --workload-pool=${WORKLOAD_POOL} \
-    --enable-stackdriver-kubernetes \
+    --logging=SYSTEM,WORKLOAD \
     --subnetwork=default \
     --scopes cloud-platform \
     --labels mesh_id=${MESH_ID} -q --verbosity none & 
