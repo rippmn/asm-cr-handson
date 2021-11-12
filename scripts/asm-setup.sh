@@ -46,7 +46,7 @@ kubectl create namespace load
 
 cd ../../..
 
-export ASMINGRESSIP=$(kubectl get service istio-ingressgateway -n istio-system -o jsonpath={.status.loadBalancer.ingress[0].ip})
+export ASMINGRESSIP=$(kubectl get service istio-ingressgateway -n asm-gateway -o jsonpath={.status.loadBalancer.ingress[0].ip})
 sed "s/INGRESSIP/${ASMINGRESSIP}/g" bookinfo-load-job.yaml | kubectl apply -f -
 
 echo "ASM setup completed"
